@@ -34,8 +34,8 @@ struct ContentView: View {
                     HStack(spacing: 30) {
                         Button(
                             action: {
-                                nextItem = AVPlayerItem(url: urls[nextIndex])
                                 queuePlayer.remove(nextItem!)
+//                                print("count after remove: \(queuePlayer.items().count)")
                                 nextIndex -= 2
                                 if nextIndex < 0 {
                                     nextIndex += urls.count
@@ -95,6 +95,7 @@ struct ContentView: View {
             }
             nextItem = AVPlayerItem(url: urls[nextIndex])
             queuePlayer.insert(nextItem!, after: nil)
+//            print("count onChange: \(queuePlayer.items().count)")
             
             Task {
                 totalTime = try! await queuePlayer.currentItem?.asset.load(.duration)
