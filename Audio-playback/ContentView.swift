@@ -18,7 +18,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            if let totalTime = totalTime {
+            if let totalTime = totalTime, let _ = queuePlayer.currentItem {
                 VStack {
                     Slider(value: Binding(
                         get: { currentTime },
@@ -35,7 +35,6 @@ struct ContentView: View {
                         Button(
                             action: {
                                 queuePlayer.remove(nextItem!)
-//                                print("count after remove: \(queuePlayer.items().count)")
                                 nextIndex -= 2
                                 if nextIndex < 0 {
                                     nextIndex += urls.count
@@ -95,7 +94,6 @@ struct ContentView: View {
             }
             nextItem = AVPlayerItem(url: urls[nextIndex])
             queuePlayer.insert(nextItem!, after: nil)
-//            print("count onChange: \(queuePlayer.items().count)")
             
             Task {
                 totalTime = try! await queuePlayer.currentItem?.asset.load(.duration)
